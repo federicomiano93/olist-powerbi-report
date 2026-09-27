@@ -111,7 +111,7 @@ IF(
 
 ![Attivazione del drill-through](images/drill-through.png)
 
-![Pagina State Detail](images/state-detail.png)
+![Pagina State Detail](images/state-details.png)
 
 ---
 
