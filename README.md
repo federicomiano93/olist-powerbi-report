@@ -46,7 +46,7 @@ Ho usato uno **star schema**: due tabelle dei fatti al centro, le dimensioni int
 | calendar | Dimensione | giorno |
 
 - Tutte le relazioni sono **uno-a-molti** con filtro in una sola direzione.
-- La tabella **calendar** è creata in DAX e copre **anni interi** (1 gennaio – 31 dicembre), come richiesto dalle funzioni di confronto temporale.
+- La tabella **calendar** è creata in DAX e copre **anni interi** (1 gennaio – 31 dicembre).
 - Le misure sono raccolte nella tabella **misure**, divise in cartelle (Orders, Revenue, Reviews).
 
 ---
@@ -118,14 +118,6 @@ IF(
 - **KPI card:** il confronto gennaio-agosto è fisso nel codice, perché i dati 2018 finiscono ad agosto.
 - **YoY 2017 vs 2016:** percentuali molto alte perché nel 2016 gli ordini sono pochissimi.
 - **Rating:** il filtro anno usa la data della recensione; il filtro status non si applica alle recensioni.
-
----
-
-## Cosa migliorerei in un contesto aziendale
-
-- Rendere **dinamico** il confronto gennaio-agosto e la data di taglio dei dati.
-- Usare un **parametro** per il percorso della cartella dati, invece di scriverlo in ogni query.
-- Pubblicare il report su **Power BI Service** con aggiornamento automatico dei dati.
 
 ---
 
