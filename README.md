@@ -102,10 +102,14 @@ IF(
 - Trend mensile di ordini e ricavi contro l'anno precedente
 - Distribuzione dei voti, top 8 categorie, top 8 stati
 
-**State Detail** (drill-through)
-- Si apre dalla Overview selezionando uno stato e cliccando il bottone
-- Stessi indicatori, filtrati sullo stato scelto, più le top 8 città
-- Bottone per tornare alla Overview
+**State Detail** (pagina di drill-through)
+- Mostra il dettaglio di **un solo stato**: stessi indicatori della Overview, più le top 8 città
+- Come si apre: nel grafico **Top 8 states** selezioni uno stato e clicchi il bottone **State details**
+  (oppure tasto destro sulla barra → **Drill through → State Detail**)
+- La pagina **mantiene i filtri** scelti nella Overview (anno e status)
+- Il bottone freccia in alto a sinistra riporta alla Overview
+
+![Attivazione del drill-through](images/drill-through.png)
 
 ![Pagina State Detail](images/state-detail.png)
 
@@ -118,6 +122,14 @@ IF(
 - **KPI card:** il confronto gennaio-agosto è fisso nel codice, perché i dati 2018 finiscono ad agosto.
 - **YoY 2017 vs 2016:** percentuali molto alte perché nel 2016 gli ordini sono pochissimi.
 - **Rating:** il filtro anno usa la data della recensione; il filtro status non si applica alle recensioni.
+
+---
+
+## Cosa migliorerei in un contesto aziendale
+
+- Rendere **dinamico** il confronto gennaio-agosto e la data di taglio dei dati.
+- Usare un **parametro** per il percorso della cartella dati, invece di scriverlo in ogni query.
+- Pubblicare il report su **Power BI Service** con aggiornamento automatico dei dati.
 
 ---
 
