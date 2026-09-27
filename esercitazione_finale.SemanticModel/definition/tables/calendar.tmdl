@@ -1,7 +1,9 @@
 table calendar
 	lineageTag: 316ba6af-62ea-437b-a039-ad19048bc79c
+	dataCategory: Time
 
 	column Date
+		isKey
 		formatString: Long Date
 		lineageTag: 3fc2679e-914e-47ee-8a0f-0a58a2e5b830
 		summarizeBy: none
@@ -47,75 +49,26 @@ table calendar
 
 		annotation SummarizationSetBy = User
 
-	column 'Fiscal Month Number'
-		isHidden
-		formatString: 0
-		lineageTag: f1bfff8e-e784-43fb-a842-bba7a7232bf6
-		summarizeBy: sum
-		isNameInferred
-		sourceColumn: [Fiscal Month Number]
-
-		annotation SummarizationSetBy = Automatic
-
-	column 'Fiscal Month Name'
-		isHidden
-		lineageTag: 40c4fd6e-10a9-4ee0-b4ab-d0618b74f8be
-		summarizeBy: none
-		isNameInferred
-		sourceColumn: [Fiscal Month Name]
-
-		annotation SummarizationSetBy = Automatic
-
-	column 'Fiscal Quarter'
-		isHidden
-		lineageTag: a542ff9b-7172-4d05-868f-ee0f2c2cbc07
-		summarizeBy: none
-		isNameInferred
-		sourceColumn: [Fiscal Quarter]
-
-		annotation SummarizationSetBy = Automatic
-
-	column 'Fiscal Year'
-		isHidden
-		formatString: 0
-		lineageTag: 73ca5d3f-150e-432e-9c12-4e3bff77ca3f
-		summarizeBy: sum
-		isNameInferred
-		sourceColumn: [Fiscal Year]
-
-		annotation SummarizationSetBy = Automatic
-
 	partition calendar = calculated
 		mode: import
-		source = ```
+		source =
 				
-				VAR MinDate = MIN(fact_orders[order_purchase_timestamp])
-				VAR MaxDate = MAX(fact_orders[order_purchase_timestamp])
-				VAR StartYear = YEAR(MinDate)
-				VAR EndYear = YEAR(MaxDate)
+				-- Calendario ad anni completi: dal 1 gennaio del primo anno
+				-- al 31 dicembre dell'ultimo anno con ordini
+				VAR MinDate = MIN ( fact_orders[order_purchase_timestamp] )
+				VAR MaxDate = MAX ( fact_orders[order_purchase_timestamp] )
+				VAR StartYear = YEAR ( MinDate )
+				VAR EndYear = YEAR ( MaxDate )
 				
 				RETURN
 				SELECTCOLUMNS (
 				    CALENDAR ( DATE ( StartYear, 1, 1 ), DATE ( EndYear, 12, 31 ) ),
-				    "Date", [Date], 
+				    "Date", [Date],
 				    "Month Number", MONTH ( [Date] ),
 				    "Month Name", FORMAT ( [Date], "MMMM" ),
 				    "Quarter", "Q" & FORMAT ( [Date], "Q" ),
-				    "Year", YEAR ( [Date] ),
-				
-				    "Fiscal Month Number", 
-				        IF ( MONTH ( [Date] ) >= 7, MONTH ( [Date] ) - 6, MONTH ( [Date] ) + 6 ),
-				
-				    "Fiscal Month Name", 
-				        FORMAT ( [Date], "MMMM" ),
-				
-				    "Fiscal Quarter", 
-				        "Q" & CEILING ( IF ( MONTH ( [Date] ) >= 7, MONTH ( [Date] ) - 6, MONTH ( [Date] ) + 6 ) / 3, 1 ),
-				
-				    "Fiscal Year", 
-				        IF ( MONTH ( [Date] ) >= 7, YEAR ( [Date] ) + 1, YEAR ( [Date] ) )
+				    "Year", YEAR ( [Date] )
 				)
-				```
 
 	annotation PBI_Id = 05e083cd1993428ca574a2d3b3451b44
 

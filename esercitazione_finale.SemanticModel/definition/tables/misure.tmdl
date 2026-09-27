@@ -32,7 +32,7 @@ table misure
 			    fact_orders,
 			    fact_orders[price] + fact_orders[freight_value]
 			)
-		formatString: #,0.00
+		formatString: #,0
 		displayFolder: Revenue
 		lineageTag: 91983080-00a1-4ec7-ba1d-cb1c4c6291b6
 
@@ -42,7 +42,7 @@ table misure
 			    [Total Revenue],
 			    PARALLELPERIOD('calendar'[Date], -12, MONTH)
 			    )
-		formatString: #,0.00
+		formatString: #,0
 		displayFolder: Revenue
 		lineageTag: f05f9648-fcbe-4a4c-8ccd-9c86e0dfc1fe
 

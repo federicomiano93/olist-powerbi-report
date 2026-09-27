@@ -4,7 +4,7 @@
     {
       "ordinal": 0,
       "scrollPosition": {
-        "x": 0,
+        "x": 35.820512820512704,
         "y": 0
       },
       "nodes": [
@@ -16,7 +16,7 @@
           "nodeIndex": "fact_orders",
           "nodeLineageTag": "3c8cbce1-f079-4221-8715-5d2844e9b173",
           "size": {
-            "height": 528.538912713512,
+            "height": 312.70557938017862,
             "width": 254.48467745656239
           },
           "zIndex": 1
@@ -29,7 +29,7 @@
           "nodeIndex": "dim_products",
           "nodeLineageTag": "31bdee1a-4e0c-4f9a-931a-9f32e674d8aa",
           "size": {
-            "height": 367.50967860999708,
+            "height": 162.50967860999708,
             "width": 234
           },
           "zIndex": 6
@@ -42,7 +42,7 @@
           "nodeIndex": "fact_order_reviews",
           "nodeLineageTag": "2f08b770-43d1-4c91-ac43-3366f75d135d",
           "size": {
-            "height": 225.57520173382784,
+            "height": 145,
             "width": 234
           },
           "zIndex": 2
@@ -55,7 +55,7 @@
           "nodeIndex": "dim_customers",
           "nodeLineageTag": "f6e6a733-38c5-475a-b802-ff56a8bd9440",
           "size": {
-            "height": 200,
+            "height": 150.83333333333337,
             "width": 234
           },
           "zIndex": 5
@@ -75,8 +75,8 @@
         },
         {
           "location": {
-            "x": 1699,
-            "y": 293
+            "x": 1535.6666666666665,
+            "y": 334.66666666666663
           },
           "nodeIndex": "misure",
           "nodeLineageTag": "0e12da68-5f05-4b06-9943-412513e65b6f",
@@ -88,7 +88,7 @@
         }
       ],
       "name": "All tables",
-      "zoomValue": 89.192590520569539,
+      "zoomValue": 130,
       "pinKeyFieldsToTop": false,
       "showExtraHeaderInfo": false,
       "hideKeyFieldsWhenCollapsed": false,

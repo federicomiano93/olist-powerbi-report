@@ -2,7 +2,7 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
   "name": "38aa5a2520c9443e8e52",
   "displayName": "Overview",
-  "displayOption": "ActualSize",
+  "displayOption": "FitToPage",
   "height": 720,
   "width": 1280,
   "objects": {

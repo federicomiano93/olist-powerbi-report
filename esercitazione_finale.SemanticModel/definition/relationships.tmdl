@@ -1,11 +1,3 @@
-relationship 0fcf01d1-a9cc-6d8c-ec91-a9ffb87872bb
-	fromColumn: fact_orders.order_purchase_timestamp
-	toColumn: calendar.Date
-
-relationship 943304e8-2484-0786-ff34-c2f6ce581107
-	fromColumn: fact_order_reviews.review_creation_date
-	toColumn: calendar.Date
-
 relationship ebc2d362-4706-9587-7e8a-f3eab2cfd213
 	fromColumn: fact_orders.customer_id
 	toColumn: dim_customers.customer_id
@@ -17,4 +9,12 @@ relationship 485afcc6-1eda-c31a-793b-ac9aa128c74b
 relationship a39cdd1e-a451-f6a9-d0a1-8bf589c13377
 	fromColumn: fact_order_reviews.customer_id
 	toColumn: dim_customers.customer_id
+
+relationship 0fcf01d1-a9cc-6d8c-ec91-a9ffb87872bb
+	fromColumn: fact_orders.order_purchase_timestamp
+	toColumn: calendar.Date
+
+relationship 943304e8-2484-0786-ff34-c2f6ce581107
+	fromColumn: fact_order_reviews.review_creation_date
+	toColumn: calendar.Date
 
