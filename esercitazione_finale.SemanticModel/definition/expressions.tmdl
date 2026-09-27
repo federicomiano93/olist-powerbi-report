@@ -1,0 +1,28 @@
+expression archive =
+		let
+		    Source = Folder.Files("C:\Users\feder\OneDrive\Documenti\Data analyst\Epicode\Corso_studi\Epicode\modulo_5_powerBI\8_esercitazione_finale\data\archive")
+		in
+		    Source
+	lineageTag: 0c9e8703-1c80-45f1-b4fe-236543a786da
+	queryGroup: Sources
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression fact_order_item =
+		let
+		    Source = archive,
+		    #"C:\Users\feder\OneDrive\Documenti\Data analyst\Epicode\Corso_studi\Epicode\modulo_5_powerBI\8_esercitazione_finale\data\archive\_olist_order_items_dataset csv" = Source{[#"Folder Path"="C:\Users\feder\OneDrive\Documenti\Data analyst\Epicode\Corso_studi\Epicode\modulo_5_powerBI\8_esercitazione_finale\data\archive\",Name="olist_order_items_dataset.csv"]}[Content],
+		    #"Imported CSV" = Csv.Document(#"C:\Users\feder\OneDrive\Documenti\Data analyst\Epicode\Corso_studi\Epicode\modulo_5_powerBI\8_esercitazione_finale\data\archive\_olist_order_items_dataset csv",[Delimiter=",", Columns=7, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+		    #"Promoted Headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"order_id", type text}, {"order_item_id", Int64.Type}, {"product_id", type text}, {"seller_id", type text}, {"shipping_limit_date", type datetime}, {"price", type number}, {"freight_value", type number}})
+		in
+		    #"Changed Type"
+	lineageTag: 0b090e8a-8ae5-4e2d-9255-d901b4bc632e
+	queryGroup: Staging
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

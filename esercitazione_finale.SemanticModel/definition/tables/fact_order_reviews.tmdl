@@ -1,0 +1,54 @@
+table fact_order_reviews
+	lineageTag: 2f08b770-43d1-4c91-ac43-3366f75d135d
+
+	column review_score
+		dataType: int64
+		formatString: 0
+		lineageTag: 1ec03e75-6343-4e39-87d1-c395b08fab49
+		summarizeBy: none
+		sourceColumn: review_score
+
+		annotation SummarizationSetBy = User
+
+	column review_creation_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: c007718c-ca2d-45fe-b2cb-87289d745e47
+		summarizeBy: none
+		sourceColumn: review_creation_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column customer_id
+		dataType: string
+		lineageTag: c97a47ed-a6ea-4ee6-a964-28d6c21fe50e
+		summarizeBy: none
+		sourceColumn: customer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_order_reviews = m
+		mode: import
+		queryGroup: Facts
+		source =
+				let
+				    Source = archive,
+				    #"C:\Users\feder\OneDrive\Documenti\Data analyst\Epicode\Corso_studi\Epicode\modulo_5_powerBI\8_esercitazione_finale\data\archive\_olist_order_reviews_dataset csv" = Source{[#"Folder Path"="C:\Users\feder\OneDrive\Documenti\Data analyst\Epicode\Corso_studi\Epicode\modulo_5_powerBI\8_esercitazione_finale\data\archive\",Name="olist_order_reviews_dataset.csv"]}[Content],
+				    #"Imported CSV" = Csv.Document(#"C:\Users\feder\OneDrive\Documenti\Data analyst\Epicode\Corso_studi\Epicode\modulo_5_powerBI\8_esercitazione_finale\data\archive\_olist_order_reviews_dataset csv",[Delimiter=",", Columns=7, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars=true]),
+				    #"Removed Columns" = Table.RemoveColumns(#"Promoted Headers",{"review_comment_title", "review_comment_message", "review_answer_timestamp"}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Removed Columns",{{"review_creation_date", type datetime}}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Changed Type",{{"review_creation_date", type date}, {"review_score", Int64.Type}}),
+				    #"Merged Queries" = Table.NestedJoin(#"Changed Type1", {"order_id"}, fact_orders, {"order_id"}, "fact_orders", JoinKind.LeftOuter),
+				    #"Expanded fact_orders" = Table.ExpandTableColumn(#"Merged Queries", "fact_orders", {"customer_id"}, {"customer_id"}),
+				    #"Removed Duplicates" = Table.Distinct(#"Expanded fact_orders", {"review_id", "order_id"}),
+				    #"Removed Columns1" = Table.RemoveColumns(#"Removed Duplicates",{"review_id", "order_id"})
+				in
+				    #"Removed Columns1"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

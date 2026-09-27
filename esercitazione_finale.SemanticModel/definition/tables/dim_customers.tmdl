@@ -1,0 +1,45 @@
+table dim_customers
+	lineageTag: f6e6a733-38c5-475a-b802-ff56a8bd9440
+
+	column customer_id
+		dataType: string
+		lineageTag: d5ae7667-9aba-40eb-9486-5a2346239ef5
+		summarizeBy: none
+		sourceColumn: customer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_city
+		dataType: string
+		lineageTag: 30392fed-2810-4fd4-a40c-9cd758303a48
+		summarizeBy: none
+		sourceColumn: customer_city
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_state
+		dataType: string
+		lineageTag: b8e5af9b-cf07-4fff-9b43-1f230ef1a7e1
+		summarizeBy: none
+		sourceColumn: customer_state
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_customers = m
+		mode: import
+		queryGroup: Dimensions
+		source =
+				let
+				    Source = archive,
+				    #"C:\Users\feder\OneDrive\Documenti\Data analyst\Epicode\Corso_studi\Epicode\modulo_5_powerBI\8_esercitazione_finale\data\archive\_olist_customers_dataset csv" = Source{[#"Folder Path"="C:\Users\feder\OneDrive\Documenti\Data analyst\Epicode\Corso_studi\Epicode\modulo_5_powerBI\8_esercitazione_finale\data\archive\",Name="olist_customers_dataset.csv"]}[Content],
+				    #"Imported CSV" = Csv.Document(#"C:\Users\feder\OneDrive\Documenti\Data analyst\Epicode\Corso_studi\Epicode\modulo_5_powerBI\8_esercitazione_finale\data\archive\_olist_customers_dataset csv",[Delimiter=",", Columns=5, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"customer_id", type text}, {"customer_unique_id", type text}, {"customer_zip_code_prefix", Int64.Type}, {"customer_city", type text}, {"customer_state", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"customer_unique_id", "customer_zip_code_prefix"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

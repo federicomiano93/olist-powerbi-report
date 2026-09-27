@@ -1,0 +1,37 @@
+table dim_products
+	lineageTag: 31bdee1a-4e0c-4f9a-931a-9f32e674d8aa
+
+	column product_id
+		dataType: string
+		lineageTag: 3ba724f5-7fd3-40ef-8345-16d87fbdc310
+		summarizeBy: none
+		sourceColumn: product_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_category_name
+		dataType: string
+		lineageTag: bb52edf1-c0a3-476e-ac6c-72cb7a3debb9
+		summarizeBy: none
+		sourceColumn: product_category_name
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_products = m
+		mode: import
+		queryGroup: Dimensions
+		source =
+				let
+				    Source = archive,
+				    #"C:\Users\feder\OneDrive\Documenti\Data analyst\Epicode\Corso_studi\Epicode\modulo_5_powerBI\8_esercitazione_finale\data\archive\_olist_products_dataset csv" = Source{[#"Folder Path"="C:\Users\feder\OneDrive\Documenti\Data analyst\Epicode\Corso_studi\Epicode\modulo_5_powerBI\8_esercitazione_finale\data\archive\",Name="olist_products_dataset.csv"]}[Content],
+				    #"Imported CSV" = Csv.Document(#"C:\Users\feder\OneDrive\Documenti\Data analyst\Epicode\Corso_studi\Epicode\modulo_5_powerBI\8_esercitazione_finale\data\archive\_olist_products_dataset csv",[Delimiter=",", Columns=9, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"product_id", type text}, {"product_category_name", type text}, {"product_name_lenght", Int64.Type}, {"product_description_lenght", Int64.Type}, {"product_photos_qty", Int64.Type}, {"product_weight_g", Int64.Type}, {"product_length_cm", Int64.Type}, {"product_height_cm", Int64.Type}, {"product_width_cm", Int64.Type}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"product_name_lenght", "product_description_lenght", "product_photos_qty", "product_weight_g", "product_length_cm", "product_height_cm", "product_width_cm"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

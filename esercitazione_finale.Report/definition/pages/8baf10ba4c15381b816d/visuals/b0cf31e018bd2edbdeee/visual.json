@@ -1,0 +1,83 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "name": "b0cf31e018bd2edbdeee",
+  "position": {
+    "x": 24,
+    "y": 64,
+    "z": 0,
+    "height": 480,
+    "width": 568,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "calendar"
+                    }
+                  },
+                  "Property": "Month Name"
+                }
+              },
+              "queryRef": "calendar.Month Name",
+              "nativeQueryRef": "Month Name"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "misure"
+                    }
+                  },
+                  "Property": "Total Orders"
+                }
+              },
+              "queryRef": "misure.Orders Count",
+              "nativeQueryRef": "Orders Count"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "misure"
+                    }
+                  },
+                  "Property": "Total Orders PY"
+                }
+              },
+              "queryRef": "misure.Orders Count PY",
+              "nativeQueryRef": "Orders Count PY"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "misure"
+                    }
+                  },
+                  "Property": "Total Orders YoY %"
+                }
+              },
+              "queryRef": "misure.Orders Count YoY %",
+              "nativeQueryRef": "Orders Count YoY %"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

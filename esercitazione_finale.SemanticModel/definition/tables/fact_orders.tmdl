@@ -1,0 +1,103 @@
+table fact_orders
+	lineageTag: 3c8cbce1-f079-4221-8715-5d2844e9b173
+
+	column order_id
+		dataType: string
+		lineageTag: 248e8cf3-2349-4ec9-98d1-eaef6bf42401
+		summarizeBy: none
+		sourceColumn: order_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_id
+		dataType: string
+		lineageTag: 60113d50-9850-4541-991b-fd1e049fbd51
+		summarizeBy: none
+		sourceColumn: customer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_status
+		dataType: string
+		lineageTag: 0a94f73d-0240-4ca7-8f6e-7b1bdff5a749
+		summarizeBy: none
+		sourceColumn: order_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_purchase_timestamp
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: c1a4ce08-b67f-4578-9d46-edfc10647bdc
+		summarizeBy: none
+		sourceColumn: order_purchase_timestamp
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Revenue = fact_orders[price] + fact_orders[freight_value]
+		formatString: #,0.00
+		lineageTag: 86e0b6a0-bff7-4cc3-ab43-cd38249cfbd6
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_item_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 9895ac52-9dd5-4a67-87e6-460ffd555e2c
+		summarizeBy: none
+		sourceColumn: order_item_id
+
+		annotation SummarizationSetBy = User
+
+	column product_id
+		dataType: string
+		lineageTag: 3b3ffc1c-6253-4cc2-a022-eb9a4ecd9bef
+		summarizeBy: none
+		sourceColumn: product_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column price
+		dataType: double
+		lineageTag: 2b58cb68-c6ee-4d9c-ae8c-e076026e3a78
+		summarizeBy: sum
+		sourceColumn: price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column freight_value
+		dataType: double
+		lineageTag: 5a0ba608-bd08-4267-a3cf-47975192e2f8
+		summarizeBy: sum
+		sourceColumn: freight_value
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition fact_orders = m
+		mode: import
+		queryGroup: Facts
+		source =
+				let
+				    Source = archive,
+				    #"C:\Users\feder\OneDrive\Documenti\Data analyst\Epicode\Corso_studi\Epicode\modulo_5_powerBI\8_esercitazione_finale\data\archive\_olist_orders_dataset csv" = Source{[#"Folder Path"="C:\Users\feder\OneDrive\Documenti\Data analyst\Epicode\Corso_studi\Epicode\modulo_5_powerBI\8_esercitazione_finale\data\archive\",Name="olist_orders_dataset.csv"]}[Content],
+				    #"Imported CSV" = Csv.Document(#"C:\Users\feder\OneDrive\Documenti\Data analyst\Epicode\Corso_studi\Epicode\modulo_5_powerBI\8_esercitazione_finale\data\archive\_olist_orders_dataset csv",[Delimiter=",", Columns=8, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"order_id", type text}, {"customer_id", type text}, {"order_status", type text}, {"order_purchase_timestamp", type datetime}, {"order_approved_at", type datetime}, {"order_delivered_carrier_date", type datetime}, {"order_delivered_customer_date", type datetime}, {"order_estimated_delivery_date", type datetime}}),
+				    #"Merged Queries" = Table.NestedJoin(#"Changed Type", {"order_id"}, fact_order_item, {"order_id"}, "fact_order_item", JoinKind.LeftOuter),
+				    #"Expanded fact_order_item" = Table.ExpandTableColumn(#"Merged Queries", "fact_order_item", {"order_item_id", "product_id", "seller_id", "shipping_limit_date", "price", "freight_value"}, {"order_item_id", "product_id", "seller_id", "shipping_limit_date", "price", "freight_value"}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Expanded fact_order_item",{{"order_purchase_timestamp", type date}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type1",{"order_approved_at", "order_delivered_carrier_date", "order_delivered_customer_date", "order_estimated_delivery_date", "seller_id", "shipping_limit_date"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "esercitazione_finale"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "0ce496ce-2690-4e41-b0e7-899ec6ff443b"
+  }
+}

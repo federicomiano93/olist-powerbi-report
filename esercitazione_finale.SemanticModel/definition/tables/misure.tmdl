@@ -1,0 +1,129 @@
+table misure
+	lineageTag: 0e12da68-5f05-4b06-9943-412513e65b6f
+
+	measure 'Total Orders' = COUNT(fact_orders[order_item_id])
+		formatString: 0
+		displayFolder: Orders
+		lineageTag: 47bb089e-dd51-4bd1-a743-ea77b2d6b9b4
+
+	measure 'Total Orders PY' =
+			
+			CALCULATE(
+			    [Total Orders],
+			    PARALLELPERIOD('calendar'[Date], -12, MONTH)
+			)
+		formatString: 0
+		displayFolder: Orders
+		lineageTag: 8ad7537a-85e7-4348-963f-f5f73636c6ca
+
+	measure 'Total Orders YoY %' =
+			
+			IF (
+			    [Total Orders] > 0,
+			    DIVIDE( [Total Orders] - [Total Orders PY], [Total Orders PY] )
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Orders
+		lineageTag: 8d94f80b-53f2-467f-852c-07d1efd51b4f
+
+	measure 'Total Revenue' =
+			
+			SUMX(
+			    fact_orders,
+			    fact_orders[price] + fact_orders[freight_value]
+			)
+		formatString: #,0.00
+		displayFolder: Revenue
+		lineageTag: 91983080-00a1-4ec7-ba1d-cb1c4c6291b6
+
+	measure 'Total Revenue PY' =
+			
+			CALCULATE(
+			    [Total Revenue],
+			    PARALLELPERIOD('calendar'[Date], -12, MONTH)
+			    )
+		formatString: #,0.00
+		displayFolder: Revenue
+		lineageTag: f05f9648-fcbe-4a4c-8ccd-9c86e0dfc1fe
+
+	measure 'Total Revenue YoY %' =
+			
+			IF(
+			    [Total Revenue] > 0,
+			    DIVIDE([Total Revenue] - [Total Revenue PY], [Total Revenue PY])
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Revenue
+		lineageTag: 2a47cff9-3757-4893-8149-3bff14d2cbb6
+
+	measure 'Reviews Count' = COUNTROWS(fact_order_reviews)
+		formatString: 0
+		displayFolder: Reviews
+		lineageTag: 341cfa21-f429-4216-8dd6-e8188e0128b0
+
+	measure 'Total Orders Jan-Aug' =
+			
+			CALCULATE([Total Orders], 'calendar'[Month Number] <= 8)
+		formatString: 0.00
+		displayFolder: Orders/KPI Cards
+		lineageTag: 1dc95e65-4c84-453a-b5a4-aa6dd52699d2
+
+	measure 'Total Orders PY Jan-Aug' =
+			
+			CALCULATE([Total Orders PY], 'calendar'[Month Number] <= 8)
+		formatString: 0.00
+		displayFolder: Orders/KPI Cards
+		lineageTag: 4eb300ab-0f1f-49e7-9584-0c20c747ec08
+
+	measure 'Total Orders YoY % Jan-Aug' =
+			
+			DIVIDE(
+			    [Total Orders Jan-Aug] - [Total Orders PY Jan-Aug],
+			    [Total Orders PY Jan-Aug]
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Orders/KPI Cards
+		lineageTag: 95642a5f-fcb5-406c-a5ca-68606dee3f66
+
+	measure 'Total Revenue Jan-Aug' =
+			
+			CALCULATE([Total Revenue], 'calendar'[Month Number] <= 8)
+		formatString: #,0.00
+		displayFolder: Revenue/KPI Cards
+		lineageTag: 8cdbf4c1-fbd6-47ca-9658-6c767429c684
+
+	measure 'Total Revenue PY Jan-Aug' =
+			
+			CALCULATE([Total Revenue PY], 'calendar'[Month Number] <= 8)
+		formatString: #,0.00
+		displayFolder: Revenue/KPI Cards
+		lineageTag: d4da79af-f6be-4d46-8a1e-63929e68caba
+
+	measure 'Revenue YoY % Jan-Aug' =
+			
+			DIVIDE(
+			    [Total Revenue Jan-Aug] - [Total Revenue PY Jan-Aug],
+			    [Total Revenue PY Jan-Aug]
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Revenue/KPI Cards
+		lineageTag: 0307e4ac-a34b-4c2b-9259-1af5557b8d0c
+
+	column Column
+		isHidden
+		formatString: 0
+		lineageTag: df1f12c6-c950-4504-860c-ebceb117e3c5
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Column]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition misure = calculated
+		mode: import
+		source = Row("Column", BLANK())
+
+	annotation PBI_Id = eb2683366b2c42f9834e51533425aaa6
+
+	annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":""}
+
