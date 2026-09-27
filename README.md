@@ -135,7 +135,7 @@ IF(
 
 ## Come aprire il progetto
 
-- **File .pbix** (con i dati inclusi): scaricabile dalla sezione **Releases** della repo. Si apre con Power BI Desktop (Windows).
+- **File .pbix** (con i dati inclusi): è nella cartella principale della repo. Clicca sul file → **Download raw file**, poi aprilo con Power BI Desktop (Windows).
 - **Cartella .pbip** (formato Power BI Project): contiene modello, misure e report come file di testo, leggibili direttamente su GitHub. Per vedere i dati bisogna scaricare i CSV e aggiornare il percorso nelle query.
 
 ---
